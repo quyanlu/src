@@ -1,3 +1,13 @@
-/**
- * Created by 49190 on 2017/6/6.
- */
+angular.module('app').directive('appSheet',[function(){
+    return {
+        restrict: 'A',
+        replace: true,
+        templateUrl: 'view/template/sheet.html',
+        scope: {
+            list: '=',
+            visible: '=',
+            select: '&'
+        }
+
+    }
+}])

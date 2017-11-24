@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="bg-w company-info p-r" ui-sref="company({id:1})">
+    <img class="p-a" ng-src="{{com.imageUrl}}" alt="">
+    <p ng-bind="com.name"></p>
+    <p ng-bind="com.industry + '/' + com.state + '/' + com.people"></p>
+</div>

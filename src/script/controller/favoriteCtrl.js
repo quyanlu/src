@@ -1,3 +1,5 @@
-/**
- * Created by 49190 on 2017/7/12.
- */
+angular.module('app').controller('favoriteCtrl',['$http','$scope',function($http,$scope){
+    $http.get('data/myFavorite.json').then(function(resp){
+        $scope.list = resp.data;
+    })
+}])

@@ -1,3 +1,43 @@
-/**
- * Created by 49190 on 2017/5/2.
- */
+
+angular.module('app').controller('positionCtrl',['$scope','$q','$http','$state','cache','$log',function($scope,$q,$http,$state,cache,$log){
+
+    $scope.isLogin = !!cache.get('name');
+    $scope.message = $scope.isLogin ? '投个简历' : '去登陆';
+    function getPosition () {
+        var def = $q.defer();
+        $http.get('/data/position.json?id'+$state.params.id).then(function(resp){
+            $scope.position = resp.data;
+            if($scope.position.posted){
+                $scope.message = '已投递'
+            }
+            def.resolve(resp.data);
+        });
+        return def.promise;
+    }
+
+    function getCompany(id) {
+        $http.get('data/company.json?id=' + id).then(function(resp){
+            $scope.company = resp.data;
+        })
+    }
+    getPosition().then(function(obj){
+        getCompany(obj.companyId);
+    });
+
+    $scope.go = function() {
+        if($scope.message !=='已投递'){
+            if($scope.isLogin) {
+                $http.post('data/handle.json', {
+                    id: $scope.position.id
+                }).then(function(resp){
+                    $log.info(resp);
+                    $scope.message = '已投递'
+                });
+            }else {
+                $state.go('login');
+            }
+        }
+
+    }
+
+}]);
